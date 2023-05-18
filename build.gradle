@@ -54,3 +54,8 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+jar {
+    archiveBaseName = rootProject.name
+    archiveVersion = version
+}

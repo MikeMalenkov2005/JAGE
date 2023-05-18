@@ -67,8 +67,11 @@ publishing {
         }
     }
     publications {
-        gpr(MavenPublication) {
+        jar(MavenPublication) {
             from(components.java)
+            pom {
+                url = "https://github.com/MikeMalenkov2005/JAGE.git"
+            }
         }
     }
 }

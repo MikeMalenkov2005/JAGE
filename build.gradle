@@ -1,8 +1,7 @@
 plugins {
     id 'java'
+    id 'maven-publish'
 }
-
-apply plugin: 'maven-publish'
 
 group = 'com.github.MikeMalenkov2005'
 version = '0.1'
@@ -53,4 +52,15 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = group
+            artifactId = 'JAGE'
+            version = '0.1'
+            from components.java
+        }
+    }
 }

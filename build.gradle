@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'com.github.MikeMalenkov2005'
-version = '0.2'
+version = '0.3'
 
 import org.gradle.internal.os.OperatingSystem
 
@@ -57,9 +57,6 @@ test {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            groupId = group
-            artifactId = 'JAGE'
-            version = '0.2'
             from components.java
         }
     }

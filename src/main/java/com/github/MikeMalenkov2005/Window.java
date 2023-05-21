@@ -286,9 +286,9 @@ public class Window implements Runnable {
     private void keyCallback(long window, int key, int scancode, int action, int mods) {
         if (content != null) {
             switch (action) {
-                case GLFW_RELEASE -> content.release(this, x, y, glfwGetKeyName(key, scancode), mods);
-                case GLFW_PRESS -> content.press(this, x, y, glfwGetKeyName(key, scancode), mods);
-                case GLFW_REPEAT -> content.hold(this, x, y, glfwGetKeyName(key, scancode), mods);
+                case GLFW_RELEASE -> content.release(this, x, y, getKeyName(key), mods);
+                case GLFW_PRESS -> content.press(this, x, y, getKeyName(key), mods);
+                case GLFW_REPEAT -> content.hold(this, x, y, getKeyName(key), mods);
             }
         }
     }
@@ -300,9 +300,9 @@ public class Window implements Runnable {
     private void mouseButtonCallback(long window, int button, int action, int mods) {
         if (content != null) {
             switch (action) {
-                case GLFW_RELEASE -> content.release(this, x, y, "Mouse " + button, mods);
-                case GLFW_PRESS -> content.press(this, x, y, "Mouse " + button, mods);
-                case GLFW_REPEAT -> content.hold(this, x, y, "Mouse " + button, mods);
+                case GLFW_RELEASE -> content.release(this, x, y, "Mouse" + button, mods);
+                case GLFW_PRESS -> content.press(this, x, y, "Mouse" + button, mods);
+                case GLFW_REPEAT -> content.hold(this, x, y, "Mouse" + button, mods);
             }
         }
     }
@@ -325,5 +325,131 @@ public class Window implements Runnable {
         glfwGetWindowPos(window, xp, yp);
         xPos = xp[0];
         yPos = yp[0];
+    }
+
+    private static String getKeyName(int key) {
+        return switch (key) {
+            case 32 -> "Space";
+            case 39 -> "Apostrophe";
+            case 44 -> "Comma";
+            case 45 -> "Minus";
+            case 46 -> "Period";
+            case 47 -> "Slash";
+            case 48 -> "Num0";
+            case 49 -> "Num1";
+            case 50 -> "Num2";
+            case 51 -> "Num3";
+            case 52 -> "Num4";
+            case 53 -> "Num5";
+            case 54 -> "Num6";
+            case 55 -> "Num7";
+            case 56 -> "Num8";
+            case 57 -> "Num9";
+            case 59 -> "Semicolon";
+            case 61 -> "Equal";
+            case 65 -> "A";
+            case 66 -> "B";
+            case 67 -> "C";
+            case 68 -> "D";
+            case 69 -> "E";
+            case 70 -> "F";
+            case 71 -> "G";
+            case 72 -> "H";
+            case 73 -> "I";
+            case 74 -> "J";
+            case 75 -> "K";
+            case 76 -> "L";
+            case 77 -> "M";
+            case 78 -> "N";
+            case 79 -> "O";
+            case 80 -> "P";
+            case 81 -> "Q";
+            case 82 -> "R";
+            case 83 -> "S";
+            case 84 -> "T";
+            case 85 -> "U";
+            case 86 -> "V";
+            case 87 -> "W";
+            case 88 -> "X";
+            case 89 -> "Y";
+            case 90 -> "Z";
+            case 91 -> "LeftBracket";
+            case 92 -> "Backslash";
+            case 93 -> "RightBracket";
+            case 96 -> "GraveAccent";
+            case 161 -> "World1";
+            case 162 -> "World2";
+            case 256 -> "Escape";
+            case 257 -> "Enter";
+            case 258 -> "Tab";
+            case 259 -> "Backspace";
+            case 260 -> "Insert";
+            case 261 -> "Delete";
+            case 262 -> "Right";
+            case 263 -> "Left";
+            case 264 -> "Down";
+            case 265 -> "Up";
+            case 266 -> "PageUp";
+            case 267 -> "PageDown";
+            case 268 -> "Home";
+            case 269 -> "End";
+            case 280 -> "CapsLock";
+            case 281 -> "ScrollLock";
+            case 282 -> "NumLock";
+            case 283 -> "PrintScreen";
+            case 284 -> "Pause";
+            case 290 -> "F1";
+            case 291 -> "F2";
+            case 292 -> "F3";
+            case 293 -> "F4";
+            case 294 -> "F5";
+            case 295 -> "F6";
+            case 296 -> "F7";
+            case 297 -> "F8";
+            case 298 -> "F9";
+            case 299 -> "F10";
+            case 300 -> "F11";
+            case 301 -> "F12";
+            case 302 -> "F13";
+            case 303 -> "F14";
+            case 304 -> "F15";
+            case 305 -> "F16";
+            case 306 -> "F17";
+            case 307 -> "F18";
+            case 308 -> "F19";
+            case 309 -> "F20";
+            case 310 -> "F21";
+            case 311 -> "F22";
+            case 312 -> "F23";
+            case 313 -> "F24";
+            case 314 -> "F25";
+            case 320 -> "Keypad0";
+            case 321 -> "Keypad1";
+            case 322 -> "Keypad2";
+            case 323 -> "Keypad3";
+            case 324 -> "Keypad4";
+            case 325 -> "Keypad5";
+            case 326 -> "Keypad6";
+            case 327 -> "Keypad7";
+            case 328 -> "Keypad8";
+            case 329 -> "Keypad9";
+            case 330 -> "KeypadDecimal";
+            case 331 -> "KeypadDivide";
+            case 332 -> "KeypadMultiply";
+            case 333 -> "KeypadSubtract";
+            case 334 -> "KeypadAdd";
+            case 335 -> "KeypadEnter";
+            case 336 -> "KeypadEqual";
+            case 340 -> "LeftShift";
+            case 341 -> "LeftControl";
+            case 342 -> "LeftAlt";
+            case 343 -> "LeftSuper";
+            case 344 -> "RightShift";
+            case 345 -> "RightControl";
+            case 346 -> "RightAlt";
+            case 347 -> "RightSuper";
+            case 348 -> "Menu";
+            default -> "Unknown";
+        };
     }
 }

@@ -3,19 +3,15 @@ package com.github.MikeMalenkov2005;
 public interface WindowContent {
     void draw(Window window);
 
-    void keyPress(Window window, double x, double y, int key, int mods);
+    void press(Window window, double x, double y, String input, int mods);
 
-    void keyHold(Window window, double x, double y, int key, int mods);
+    void hold(Window window, double x, double y, String input, int mods);
 
-    void keyRelease(Window window, double x, double y, int key, int mods);
+    void release(Window window, double x, double y, String input, int mods);
 
-    void mousePress(Window window, double x, double y, int button, int mods);
+    void print(Window window, double x, double y, String str);
 
-    void mouseHold(Window window, double x, double y, int button, int mods);
+    void scroll(Window window, double x, double y, double xScroll, double yScroll);
 
-    void mouseRelease(Window window, double x, double y, int button, int mods);
-
-    void mouseScroll(Window window, double x, double y, double xScroll, double yScroll);
-
-    void mouseMove(Window window, double x, double y, double dx, double dy);
+    void move(Window window, double x, double y, double dx, double dy);
 }

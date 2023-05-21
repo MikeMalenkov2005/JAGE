@@ -193,6 +193,7 @@ public class Window implements Runnable {
         glfwSetMouseButtonCallback(window, this::mouseButtonCallback);
         glfwSetScrollCallback(window, this::mouseScrollCallback);
         glfwSetKeyCallback(window, this::keyCallback);
+        glfwSetCharCallback(window, this::charCallback);
 
         glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
@@ -285,25 +286,29 @@ public class Window implements Runnable {
     private void keyCallback(long window, int key, int scancode, int action, int mods) {
         if (content != null) {
             switch (action) {
-                case GLFW_RELEASE -> content.keyRelease(this, x, y, key, mods);
-                case GLFW_PRESS -> content.keyPress(this, x, y, key, mods);
-                case GLFW_REPEAT -> content.keyHold(this, x, y, key, mods);
+                case GLFW_RELEASE -> content.release(this, x, y, glfwGetKeyName(key, scancode), mods);
+                case GLFW_PRESS -> content.press(this, x, y, glfwGetKeyName(key, scancode), mods);
+                case GLFW_REPEAT -> content.hold(this, x, y, glfwGetKeyName(key, scancode), mods);
             }
         }
+    }
+
+    private void charCallback(long window, int codePoint) {
+        if (content != null) content.print(this, x, y, new String(Character.toChars(codePoint)));
     }
 
     private void mouseButtonCallback(long window, int button, int action, int mods) {
         if (content != null) {
             switch (action) {
-                case GLFW_RELEASE -> content.mouseRelease(this, x, y, button, mods);
-                case GLFW_PRESS -> content.mousePress(this, x, y, button, mods);
-                case GLFW_REPEAT -> content.mouseHold(this, x, y, button, mods);
+                case GLFW_RELEASE -> content.release(this, x, y, "Mouse " + button, mods);
+                case GLFW_PRESS -> content.press(this, x, y, "Mouse " + button, mods);
+                case GLFW_REPEAT -> content.hold(this, x, y, "Mouse " + button, mods);
             }
         }
     }
 
     private void mouseScrollCallback(long window, double xScroll, double yScroll) {
-        if (content != null) content.mouseScroll(this, x, y, xScroll, yScroll);
+        if (content != null) content.scroll(this, x, y, xScroll, yScroll);
     }
 
     private void mousePosCallback(long window, double x, double y) {
@@ -311,7 +316,7 @@ public class Window implements Runnable {
         double dy = y - this.y;
         this.x = x;
         this.y = y;
-        if (content != null) content.mouseMove(this, x, y, dx, dy);
+        if (content != null) content.move(this, x, y, dx, dy);
     }
 
     private void updateWindowPosition() {

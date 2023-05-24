@@ -1,4 +1,4 @@
-package com.github.MikeMalenkov2005;
+package com.github.MikeMalenkov2005.jage;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWErrorCallback;
@@ -31,46 +31,54 @@ public class Window implements Runnable {
         initialized = false;
     }
 
+    @Deprecated
     public static int loadBuffer(int usage, byte... data) {
         int id = glCreateBuffers();
         glNamedBufferData(id, ByteBuffer.wrap(data), usage);
         return id;
     }
 
+    @Deprecated
     public static int loadBuffer(int usage, short... data) {
         int id = glCreateBuffers();
         glNamedBufferData(id, data, usage);
         return id;
     }
 
+    @Deprecated
     public static int loadBuffer(int usage, int... data) {
         int id = glCreateBuffers();
         glNamedBufferData(id, data, usage);
         return id;
     }
 
+    @Deprecated
     public static int loadBuffer(int usage, long... data) {
         int id = glCreateBuffers();
         glNamedBufferData(id, data, usage);
         return id;
     }
 
+    @Deprecated
     public static int loadBuffer(int usage, float... data) {
         int id = glCreateBuffers();
         glNamedBufferData(id, data, usage);
         return id;
     }
 
+    @Deprecated
     public static int loadBuffer(int usage, double... data) {
         int id = glCreateBuffers();
         glNamedBufferData(id, data, usage);
         return id;
     }
 
+    @Deprecated
     public static void deleteBuffers(int... buffers) {
         glDeleteBuffers(buffers);
     }
 
+    @Deprecated
     public static int compileShader(int type, String src) {
         int id = glCreateShader(type);
         glShaderSource(id, src);
@@ -82,12 +90,14 @@ public class Window implements Runnable {
         return id;
     }
 
+    @Deprecated
     public static void deleteShaders(int... shaders) {
         for (int shader : shaders) {
             glDeleteShader(shader);
         }
     }
 
+    @Deprecated
     public static int linkShaderProgram(int... shaders) {
         int id = glCreateProgram();
         for (int shader : shaders)
@@ -104,12 +114,14 @@ public class Window implements Runnable {
         return id;
     }
 
+    @Deprecated
     public static void deleteShaderPrograms(int... programs) {
         for (int program : programs) {
             glDeleteProgram(program);
         }
     }
 
+    @Deprecated
     public static int createTexture1D(int width, int levels, int format, int wrapMode, int filter) {
         int id = glCreateTextures(GL_TEXTURE_1D);
         glTextureStorage1D(id, levels, format, width);
@@ -119,6 +131,7 @@ public class Window implements Runnable {
         return id;
     }
 
+    @Deprecated
     public static int createTexture2D(int width, int height, int levels, int format, int wrapMode, int filter) {
         int id = glCreateTextures(GL_TEXTURE_2D);
         glTextureStorage2D(id, levels, format, width, height);
@@ -129,6 +142,7 @@ public class Window implements Runnable {
         return id;
     }
 
+    @Deprecated
     public static int createTexture3D(int width, int height, int depth, int levels, int format, int wrapMode, int filter) {
         int id = glCreateTextures(GL_TEXTURE_3D);
         glTextureStorage3D(id, levels, format, width, height, depth);
@@ -136,9 +150,11 @@ public class Window implements Runnable {
         glTextureParameteri(id, GL_TEXTURE_MAG_FILTER, filter);
         glTextureParameteri(id, GL_TEXTURE_WRAP_S, wrapMode);
         glTextureParameteri(id, GL_TEXTURE_WRAP_T, wrapMode);
+        glTextureParameteri(id, GL_TEXTURE_WRAP_R, wrapMode);
         return id;
     }
 
+    @Deprecated
     public static int loadTexture(BufferedImage image, int wrapMode, int filter) {
         int[] pixels = new int[image.getWidth() * image.getHeight()];
         image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());
@@ -158,6 +174,7 @@ public class Window implements Runnable {
         return id;
     }
 
+    @Deprecated
     public static void deleteTextures(int... textures) {
         glDeleteTextures(textures);
     }

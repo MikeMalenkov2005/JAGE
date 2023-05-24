@@ -1,4 +1,4 @@
-package com.github.MikeMalenkov2005;
+package com.github.MikeMalenkov2005.jage;
 
 public interface WindowContent {
     void draw(Window window);

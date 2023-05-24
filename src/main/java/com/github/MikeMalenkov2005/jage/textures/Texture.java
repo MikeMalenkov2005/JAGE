@@ -14,14 +14,16 @@ public class Texture implements Deletable {
     private final static Map<Integer, Map<Integer, Texture>> bound = new HashMap<>();
     private final static Map<Integer, Map<Integer, Texture>> boundImages = new HashMap<>();
 
+    public final ImageFormat format;
     protected final int id;
     private final int target;
     private boolean valid, filtered;
     private WrapMode wrapMode;
 
-    protected Texture(int target) {
+    protected Texture(ImageFormat format, int target) {
         this.id = glCreateTextures(target);
         this.target = target;
+        this.format = format;
         setFiltered(true);
         setWrapMode(WrapMode.CLAMP_TO_BORDER);
     }

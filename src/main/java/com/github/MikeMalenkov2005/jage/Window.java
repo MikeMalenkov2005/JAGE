@@ -1,6 +1,7 @@
 package com.github.MikeMalenkov2005.jage;
 
 import org.lwjgl.BufferUtils;
+import org.lwjgl.PointerBuffer;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
@@ -9,6 +10,9 @@ import org.lwjgl.system.MemoryUtil;
 import java.awt.image.BufferedImage;
 import java.io.PrintStream;
 import java.nio.ByteBuffer;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -172,6 +176,29 @@ public class Window implements Runnable {
         int id = createTexture2D(image.getWidth(), image.getHeight(), 1, GL_RGBA8, wrapMode, filter);
         glTextureSubImage2D(id, 0, 0, 0, image.getWidth(), image.getHeight(), GL_RGBA, GL_UNSIGNED_BYTE, MemoryUtil.memAddress(buffer));
         return id;
+    }
+
+    public static long getPrimaryMonitor() {
+        return glfwGetPrimaryMonitor();
+    }
+
+    public static long getMonitorByName(String name) {
+        PointerBuffer monitors = Objects.requireNonNull(glfwGetMonitors());
+        for (long monitor = monitors.get(); monitors.hasRemaining(); monitor = monitors.get()) {
+            if (name.equals(glfwGetMonitorName(monitor))) {
+                return monitor;
+            }
+        }
+        return 0;
+    }
+
+    public Set<String> getMonitorNames() {
+        Set<String> result = new HashSet<>();
+        PointerBuffer monitors = Objects.requireNonNull(glfwGetMonitors());
+        for (long monitor = monitors.get(); monitors.hasRemaining(); monitor = monitors.get()) {
+            result.add(glfwGetMonitorName(monitor));
+        }
+        return result;
     }
 
     @Deprecated

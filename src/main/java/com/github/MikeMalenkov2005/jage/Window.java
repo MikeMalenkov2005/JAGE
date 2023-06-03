@@ -1,5 +1,7 @@
 package com.github.MikeMalenkov2005.jage;
 
+import com.github.MikeMalenkov2005.jage.buffers.FrameBuffer;
+import com.github.MikeMalenkov2005.jage.buffers.RenderBuffer;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.glfw.GLFWErrorCallback;
@@ -282,13 +284,13 @@ public class Window implements Runnable {
             GLFWVidMode vidMode = glfwGetVideoMode(monitor);
             if (vidMode != null) {
                 glfwSetWindowMonitor(window, monitor, 0, 0, vidMode.width(), vidMode.height(), vidMode.refreshRate());
-                glViewport(0, 0, vidMode.width(), vidMode.height());
                 glfwGetFramebufferSize(window, realWidth, realHeight);
+                FrameBuffer.useWindow(this);
             }
         } else {
             glfwSetWindowMonitor(window, 0, xPos, yPos, width, height, 0);
-            glViewport(0, 0, width, height);
             glfwGetFramebufferSize(window, realWidth, realHeight);
+            FrameBuffer.useWindow(this);
         }
     }
 
@@ -306,8 +308,8 @@ public class Window implements Runnable {
         if (monitor == 0) {
             updateWindowPosition();
             glfwSetWindowMonitor(window, 0, xPos, yPos, width, height, 0);
-            glViewport(0, 0, width, height);
             glfwGetFramebufferSize(window, realWidth, realHeight);
+            FrameBuffer.useWindow(this);
         }
     }
 

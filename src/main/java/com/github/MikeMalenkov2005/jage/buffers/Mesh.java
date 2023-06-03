@@ -1,7 +1,6 @@
 package com.github.MikeMalenkov2005.jage.buffers;
 
-import com.github.MikeMalenkov2005.jage.Deletable;
-import com.github.MikeMalenkov2005.jage.InvalidGLResourceException;
+import com.github.MikeMalenkov2005.jage.GLResource;
 import com.github.MikeMalenkov2005.jage.enums.DataType;
 
 import java.util.HashSet;
@@ -9,11 +8,10 @@ import java.util.Set;
 
 import static org.lwjgl.opengl.GL46.*;
 
-public class Mesh implements Deletable {
+public class Mesh extends GLResource {
     private final int vao, vc;
     private final GLBuffer ebo;
     private final Set<Integer> enabledAttributes = new HashSet<>();
-    private boolean valid = true;
 
     public Mesh(int... indices) {
         vc = indices.length;
@@ -35,7 +33,7 @@ public class Mesh implements Deletable {
     }
 
     public void enableAttribute(int attribute) {
-        if (!valid) throw new InvalidGLResourceException("Invalid Mesh");
+        exceptInvalid("Mesh");
         if (!enabledAttributes.contains(attribute)) {
             glEnableVertexArrayAttrib(vao, attribute);
             enabledAttributes.add(attribute);
@@ -43,7 +41,7 @@ public class Mesh implements Deletable {
     }
 
     public void disableAttribute(int attribute) {
-        if (!valid) throw new InvalidGLResourceException("Invalid Mesh");
+        exceptInvalid("Mesh");
         if (enabledAttributes.contains(attribute)) {
             glDisableVertexArrayAttrib(vao, attribute);
             enabledAttributes.remove(attribute);
@@ -51,29 +49,21 @@ public class Mesh implements Deletable {
     }
 
     public void bindBuffer(int binding, GLBuffer buffer, int offset, int stride) {
-        if (!valid) throw new InvalidGLResourceException("Invalid Mesh");
-        if (!buffer.isValid()) throw new InvalidGLResourceException("Invalid GLBuffer");
+        exceptInvalid("Mesh");
+        buffer.exceptInvalid("GLBuffer");
         glVertexArrayVertexBuffer(vao, binding, buffer.id, offset, stride);
     }
 
     public void draw() {
-        if (!valid) throw new InvalidGLResourceException("Invalid Mesh");
+        exceptInvalid("Mesh");
         glBindVertexArray(vao);
         glDrawElements(GL_TRIANGLES, vc, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
     }
 
     @Override
-    public void delete() {
-        if (valid) {
-            glDeleteVertexArrays(vao);
-            ebo.delete();
-            valid = false;
-        }
-    }
-
-    @Override
-    public boolean isValid() {
-        return valid;
+    protected void cleanUp() {
+        glDeleteVertexArrays(vao);
+        ebo.delete();
     }
 }

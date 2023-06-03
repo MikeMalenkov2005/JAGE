@@ -1,15 +1,14 @@
 package com.github.MikeMalenkov2005.jage.shaders;
 
-import com.github.MikeMalenkov2005.jage.Deletable;
+import com.github.MikeMalenkov2005.jage.GLResource;
 import com.github.MikeMalenkov2005.jage.InvalidGLResourceException;
 import com.github.MikeMalenkov2005.jage.enums.GLSLStruct;
 
 import static org.lwjgl.opengl.GL46.*;
 
-public class ShaderProgram implements Deletable {
+public class ShaderProgram extends GLResource {
     private static ShaderProgram bound = null;
     private final int id;
-    private boolean valid = true;
 
     public ShaderProgram(Shader... shaders) throws ShaderProgramLinkingFailedException, ShaderProgramValidationFailedException {
         id = glCreateProgram();
@@ -28,7 +27,7 @@ public class ShaderProgram implements Deletable {
     }
 
     public ShaderProgram bind() {
-        if (!valid) throw new InvalidGLResourceException("Invalid ShaderProgram");
+        exceptInvalid("ShaderProgram");
         ShaderProgram prev = bound;
         glUseProgram(id);
         bound = this;
@@ -36,7 +35,7 @@ public class ShaderProgram implements Deletable {
     }
 
     public void unbind() {
-        if (!valid) throw new InvalidGLResourceException("Invalid ShaderProgram");
+        exceptInvalid("ShaderProgram");
         if (this == bound) {
             glUseProgram(0);
             bound = null;
@@ -55,12 +54,12 @@ public class ShaderProgram implements Deletable {
     }
 
     public int getUniformLocation(String name) {
-        if (!valid) throw new InvalidGLResourceException("Invalid ShaderProgram");
+        exceptInvalid("ShaderProgram");
         return glGetUniformLocation(id, name);
     }
 
     public void setUniform(int location, GLSLStruct struct, boolean signed, int... data) throws ShaderException {
-        if (!valid) throw new InvalidGLResourceException("Invalid ShaderProgram");
+        exceptInvalid("ShaderProgram");
         switch (struct) {
             case SCALAR -> {
                 if (signed) glProgramUniform1iv(id, location, data);
@@ -83,7 +82,7 @@ public class ShaderProgram implements Deletable {
     }
 
     public void setUniform(int location, GLSLStruct struct, float... data) throws ShaderException {
-        if (!valid) throw new InvalidGLResourceException("Invalid ShaderProgram");
+        exceptInvalid("ShaderProgram");
         switch (struct) {
             case SCALAR -> glProgramUniform1fv(id, location, data);
             case VECTOR_2D -> glProgramUniform2fv(id, location, data);
@@ -102,7 +101,7 @@ public class ShaderProgram implements Deletable {
     }
 
     public void setUniform(int location, GLSLStruct struct, double... data) throws ShaderException {
-        if (!valid) throw new InvalidGLResourceException("Invalid ShaderProgram");
+        exceptInvalid("ShaderProgram");
         switch (struct) {
             case SCALAR -> glProgramUniform1dv(id, location, data);
             case VECTOR_2D -> glProgramUniform2dv(id, location, data);
@@ -121,18 +120,18 @@ public class ShaderProgram implements Deletable {
     }
 
     public void getUniform(int location, boolean signed, int[] data) {
-        if (!valid) throw new InvalidGLResourceException("Invalid ShaderProgram");
+        exceptInvalid("ShaderProgram");
         if (signed) glGetUniformiv(id, location, data);
         else glGetUniformuiv(id, location, data);
     }
 
     public void getUniform(int location, float[] data) {
-        if (!valid) throw new InvalidGLResourceException("Invalid ShaderProgram");
+        exceptInvalid("ShaderProgram");
         glGetUniformfv(id, location, data);
     }
 
     public void getUniform(int location, double[] data) {
-        if (!valid) throw new InvalidGLResourceException("Invalid ShaderProgram");
+        exceptInvalid("ShaderProgram");
         glGetUniformdv(id, location, data);
     }
 
@@ -141,16 +140,8 @@ public class ShaderProgram implements Deletable {
     }
 
     @Override
-    public void delete() {
-        if (valid) {
-            unbind();
-            glDeleteProgram(id);
-            valid = false;
-        }
-    }
-
-    @Override
-    public boolean isValid() {
-        return valid;
+    protected void cleanUp() {
+        unbind();
+        glDeleteProgram(id);
     }
 }

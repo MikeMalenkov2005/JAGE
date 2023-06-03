@@ -1,16 +1,14 @@
 package com.github.MikeMalenkov2005.jage.buffers;
 
-import com.github.MikeMalenkov2005.jage.Deletable;
-import com.github.MikeMalenkov2005.jage.InvalidGLResourceException;
+import com.github.MikeMalenkov2005.jage.GLResource;
 
 import java.nio.ByteBuffer;
 
 import static org.lwjgl.opengl.GL46.*;
 
-public class GLBuffer implements Deletable {
+public class GLBuffer extends GLResource {
     public final int id;
     public final long size;
-    private boolean valid = true;
 
     public GLBuffer(long size) {
         this.id = glCreateBuffers();
@@ -19,62 +17,62 @@ public class GLBuffer implements Deletable {
     }
 
     public void write(long offset, byte... data) {
-        if (!valid) throw new InvalidGLResourceException("Invalid GLBuffer");
+        exceptInvalid("GLBuffer");
         glNamedBufferSubData(id, offset, ByteBuffer.wrap(data));
     }
 
     public void write(long offset, short... data) {
-        if (!valid) throw new InvalidGLResourceException("Invalid GLBuffer");
+        exceptInvalid("GLBuffer");
         glNamedBufferSubData(id, offset, data);
     }
 
     public void write(long offset, int... data) {
-        if (!valid) throw new InvalidGLResourceException("Invalid GLBuffer");
+        exceptInvalid("GLBuffer");
         glNamedBufferSubData(id, offset, data);
     }
 
     public void write(long offset, long... data) {
-        if (!valid) throw new InvalidGLResourceException("Invalid GLBuffer");
+        exceptInvalid("GLBuffer");
         glNamedBufferSubData(id, offset, data);
     }
 
     public void write(long offset, float... data) {
-        if (!valid) throw new InvalidGLResourceException("Invalid GLBuffer");
+        exceptInvalid("GLBuffer");
         glNamedBufferSubData(id, offset, data);
     }
 
     public void write(long offset, double... data) {
-        if (!valid) throw new InvalidGLResourceException("Invalid GLBuffer");
+        exceptInvalid("GLBuffer");
         glNamedBufferSubData(id, offset, data);
     }
 
     public void read(long offset, byte[] data) {
-        if (!valid) throw new InvalidGLResourceException("Invalid GLBuffer");
+        exceptInvalid("GLBuffer");
         glGetNamedBufferSubData(id, offset, ByteBuffer.wrap(data));
     }
 
     public void read(long offset, short[] data) {
-        if (!valid) throw new InvalidGLResourceException("Invalid GLBuffer");
+        exceptInvalid("GLBuffer");
         glGetNamedBufferSubData(id, offset, data);
     }
 
     public void read(long offset, int[] data) {
-        if (!valid) throw new InvalidGLResourceException("Invalid GLBuffer");
+        exceptInvalid("GLBuffer");
         glGetNamedBufferSubData(id, offset, data);
     }
 
     public void read(long offset, long[] data) {
-        if (!valid) throw new InvalidGLResourceException("Invalid GLBuffer");
+        exceptInvalid("GLBuffer");
         glGetNamedBufferSubData(id, offset, data);
     }
 
     public void read(long offset, float[] data) {
-        if (!valid) throw new InvalidGLResourceException("Invalid GLBuffer");
+        exceptInvalid("GLBuffer");
         glGetNamedBufferSubData(id, offset, data);
     }
 
     public void read(long offset, double[] data) {
-        if (!valid) throw new InvalidGLResourceException("Invalid GLBuffer");
+        exceptInvalid("GLBuffer");
         glGetNamedBufferSubData(id, offset, data);
     }
 
@@ -114,18 +112,6 @@ public class GLBuffer implements Deletable {
         return data;
     }
 
-    @Override
-    public void delete() {
-        if (valid) {
-            glDeleteBuffers(id);
-            valid = false;
-        }
-    }
-
-    public boolean isValid() {
-        return valid;
-    }
-
     public static GLBuffer of(byte... data) {
         GLBuffer buffer = new GLBuffer(data.length);
         buffer.write(0, data);
@@ -160,5 +146,10 @@ public class GLBuffer implements Deletable {
         GLBuffer buffer = new GLBuffer(data.length * 8L);
         buffer.write(0, data);
         return buffer;
+    }
+
+    @Override
+    protected void cleanUp() {
+        glDeleteBuffers(id);
     }
 }

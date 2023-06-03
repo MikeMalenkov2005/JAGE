@@ -10,7 +10,8 @@ public enum PixelFormat {
     RG(GL_RG),
     RED(GL_RED),
     DEPTH_COMPONENT(GL_DEPTH_COMPONENT),
-    STENCIL_INDEX(GL_STENCIL_INDEX);
+    STENCIL_INDEX(GL_STENCIL_INDEX),
+    DEPTH_STENCIL(GL_DEPTH_STENCIL);
 
     public final int id;
 

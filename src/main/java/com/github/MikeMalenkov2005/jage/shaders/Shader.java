@@ -1,31 +1,17 @@
 package com.github.MikeMalenkov2005.jage.shaders;
 
-import com.github.MikeMalenkov2005.jage.Deletable;
+import com.github.MikeMalenkov2005.jage.GLResource;
 
 import static org.lwjgl.opengl.GL46.*;
 
-public class Shader implements Deletable {
+public class Shader extends GLResource {
     public final int id;
-    private boolean valid = true;
 
     private Shader(int type, CharSequence source) throws ShaderCompilationFailedException {
         id = glCreateShader(type);
         glShaderSource(id, source);
         glCompileShader(id);
         if (glGetShaderi(id, GL_COMPILE_STATUS) == GL_FALSE) throw new ShaderCompilationFailedException(id);
-    }
-
-    @Override
-    public void delete() {
-        if (valid) {
-            glDeleteShader(id);
-            valid = false;
-        }
-    }
-
-    @Override
-    public boolean isValid() {
-        return valid;
     }
 
     public static Shader vertex(CharSequence source) throws ShaderCompilationFailedException {
@@ -50,5 +36,10 @@ public class Shader implements Deletable {
 
     public static Shader compute(CharSequence source) throws ShaderCompilationFailedException {
         return new Shader(GL_VERTEX_SHADER, source);
+    }
+
+    @Override
+    protected void cleanUp() {
+        glDeleteShader(id);
     }
 }

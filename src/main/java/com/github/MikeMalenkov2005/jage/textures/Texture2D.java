@@ -89,8 +89,10 @@ public class Texture2D extends Texture {
             }
         }
         buffer.flip();
+        byte[] data = new byte[image.getWidth() * image.getHeight() * 4];
+        buffer.get(data);
         Texture2D texture = new Texture2D(levels, ImageFormat.RGBA8, image.getWidth(), image.getHeight());
-        texture.write(0, 0, 0, image.getWidth(), image.getHeight(), PixelFormat.RGBA, DataType.UNSIGNED_BYTE, buffer.array());
+        texture.write(0, 0, 0, image.getWidth(), image.getHeight(), PixelFormat.RGBA, DataType.UNSIGNED_BYTE, data);
         return texture;
     }
 }

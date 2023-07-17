@@ -25,52 +25,82 @@ public class CubeMap extends Texture {
 
     public void write(CubeSide side, int x, int y, int width, int height, PixelFormat format, DataType type, byte... data) {
         exceptInvalid("CubeMap");
-        glTextureSubImage3D(id, 0, x, y, side.id, width, height, 1, format.id, type.id, MemoryUtil.memAddress(ByteBuffer.wrap(data)));
+        ByteBuffer buffer = BufferUtils.createByteBuffer(data.length);
+        buffer.put(data);
+        buffer.flip();
+        glTextureSubImage3D(id, 0, x, y, side.id, width, height, 1, format.id, type.id, buffer);
     }
 
     public void write(CubeSide side, int x, int y, int width, int height, PixelFormat format, DataType type, short... data) {
         exceptInvalid("CubeMap");
-        glTextureSubImage3D(id, 0, x, y, side.id, width, height, 1, format.id, type.id, MemoryUtil.memAddress(ShortBuffer.wrap(data)));
+        ShortBuffer buffer = BufferUtils.createShortBuffer(data.length);
+        buffer.put(data);
+        buffer.flip();
+        glTextureSubImage3D(id, 0, x, y, side.id, width, height, 1, format.id, type.id, buffer);
     }
 
     public void write(CubeSide side, int x, int y, int width, int height, PixelFormat format, DataType type, int... data) {
         exceptInvalid("CubeMap");
-        glTextureSubImage3D(id, 0, x, y, side.id, width, height, 1, format.id, type.id, MemoryUtil.memAddress(IntBuffer.wrap(data)));
+        IntBuffer buffer = BufferUtils.createIntBuffer(data.length);
+        buffer.put(data);
+        buffer.flip();
+        glTextureSubImage3D(id, 0, x, y, side.id, width, height, 1, format.id, type.id, buffer);
     }
 
     public void write(CubeSide side, int x, int y, int width, int height, PixelFormat format, DataType type, float... data) {
         exceptInvalid("CubeMap");
-        glTextureSubImage3D(id, 0, x, y, side.id, width, height, 1, format.id, type.id, MemoryUtil.memAddress(FloatBuffer.wrap(data)));
+        FloatBuffer buffer = BufferUtils.createFloatBuffer(data.length);
+        buffer.put(data);
+        buffer.flip();
+        glTextureSubImage3D(id, 0, x, y, side.id, width, height, 1, format.id, type.id, buffer);
     }
 
     public void write(CubeSide side, int x, int y, int width, int height, PixelFormat format, DataType type, double... data) {
         exceptInvalid("CubeMap");
-        glTextureSubImage3D(id, 0, x, y, side.id, width, height, 1, format.id, type.id, MemoryUtil.memAddress(DoubleBuffer.wrap(data)));
+        DoubleBuffer buffer = BufferUtils.createDoubleBuffer(data.length);
+        buffer.put(data);
+        buffer.flip();
+        glTextureSubImage3D(id, 0, x, y, side.id, width, height, 1, format.id, type.id, buffer);
     }
 
     public void read(CubeSide side, int x, int y, int width, int height, PixelFormat format, DataType type, byte[] data) {
         exceptInvalid("CubeMap");
-        glGetTextureSubImage(id, 0, x, y, side.id, width, height, 1, format.id, type.id, ByteBuffer.wrap(data));
+        ByteBuffer buffer = BufferUtils.createByteBuffer(data.length);
+        glGetTextureSubImage(id, 0, x, y, side.id, width, height, 1, format.id, type.id, buffer);
+        buffer.flip();
+        buffer.get(data);
     }
 
     public void read(CubeSide side, int x, int y, int width, int height, PixelFormat format, DataType type, short[] data) {
         exceptInvalid("CubeMap");
-        glGetTextureSubImage(id, 0, x, y, side.id, width, height, 1, format.id, type.id, ShortBuffer.wrap(data));
+        ShortBuffer buffer = BufferUtils.createShortBuffer(data.length);
+        glGetTextureSubImage(id, 0, x, y, side.id, width, height, 1, format.id, type.id, buffer);
+        buffer.flip();
+        buffer.get(data);
     }
 
     public void read(CubeSide side, int x, int y, int width, int height, PixelFormat format, DataType type, int[] data) {
         exceptInvalid("CubeMap");
-        glGetTextureSubImage(id, 0, x, y, side.id, width, height, 1, format.id, type.id, IntBuffer.wrap(data));
+        IntBuffer buffer = BufferUtils.createIntBuffer(data.length);
+        glGetTextureSubImage(id, 0, x, y, side.id, width, height, 1, format.id, type.id, buffer);
+        buffer.flip();
+        buffer.get(data);
     }
 
     public void read(CubeSide side, int x, int y, int width, int height, PixelFormat format, DataType type, float[] data) {
         exceptInvalid("CubeMap");
-        glGetTextureSubImage(id, 0, x, y, side.id, width, height, 1, format.id, type.id, FloatBuffer.wrap(data));
+        FloatBuffer buffer = BufferUtils.createFloatBuffer(data.length);
+        glGetTextureSubImage(id, 0, x, y, side.id, width, height, 1, format.id, type.id, buffer);
+        buffer.flip();
+        buffer.get(data);
     }
 
     public void read(CubeSide side, int x, int y, int width, int height, PixelFormat format, DataType type, double[] data) {
         exceptInvalid("CubeMap");
-        glGetTextureSubImage(id, 0, x, y, side.id, width, height, 1, format.id, type.id, DoubleBuffer.wrap(data));
+        DoubleBuffer buffer = BufferUtils.createDoubleBuffer(data.length);
+        glGetTextureSubImage(id, 0, x, y, side.id, width, height, 1, format.id, type.id, buffer);
+        buffer.flip();
+        buffer.get(data);
     }
 
     public void loadSide(CubeSide side, URL imageURL) throws IOException {
@@ -88,6 +118,8 @@ public class CubeMap extends Texture {
             }
         }
         buffer.flip();
-        write(side, 0, 0, image.getWidth(), image.getHeight(), PixelFormat.RGBA, DataType.UNSIGNED_BYTE, buffer.array());
+        byte[] data = new byte[image.getWidth() * image.getHeight() * 4];
+        buffer.get(data);
+        write(side, 0, 0, image.getWidth(), image.getHeight(), PixelFormat.RGBA, DataType.UNSIGNED_BYTE, data);
     }
 }

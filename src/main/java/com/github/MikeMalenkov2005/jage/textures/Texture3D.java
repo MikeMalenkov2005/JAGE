@@ -25,6 +25,7 @@ public class Texture3D extends Texture {
         exceptInvalid("Texture3D");
         ByteBuffer buffer = BufferUtils.createByteBuffer(data.length);
         buffer.put(data);
+        buffer.flip();
         glTextureSubImage3D(id, level, x, y, z, width, height, depth, format.id, type.id, buffer);
     }
 
@@ -32,6 +33,7 @@ public class Texture3D extends Texture {
         exceptInvalid("Texture3D");
         ShortBuffer buffer = BufferUtils.createShortBuffer(data.length);
         buffer.put(data);
+        buffer.flip();
         glTextureSubImage3D(id, level, x, y, z, width, height, depth, format.id, type.id, buffer);
     }
 
@@ -39,6 +41,7 @@ public class Texture3D extends Texture {
         exceptInvalid("Texture3D");
         IntBuffer buffer = BufferUtils.createIntBuffer(data.length);
         buffer.put(data);
+        buffer.flip();
         glTextureSubImage3D(id, level, x, y, z, width, height, depth, format.id, type.id, buffer);
     }
 
@@ -46,6 +49,7 @@ public class Texture3D extends Texture {
         exceptInvalid("Texture3D");
         FloatBuffer buffer = BufferUtils.createFloatBuffer(data.length);
         buffer.put(data);
+        buffer.flip();
         glTextureSubImage3D(id, level, x, y, z, width, height, depth, format.id, type.id, buffer);
     }
 
@@ -53,6 +57,7 @@ public class Texture3D extends Texture {
         exceptInvalid("Texture3D");
         DoubleBuffer buffer = BufferUtils.createDoubleBuffer(data.length);
         buffer.put(data);
+        buffer.flip();
         glTextureSubImage3D(id, level, x, y, z, width, height, depth, format.id, type.id, buffer);
     }
 
@@ -60,6 +65,7 @@ public class Texture3D extends Texture {
         exceptInvalid("Texture3D");
         ByteBuffer buffer = BufferUtils.createByteBuffer(data.length);
         glGetTextureSubImage(id, level, x, y, z, width, height, depth, format.id, type.id, buffer);
+        buffer.flip();
         buffer.get(data);
     }
 
@@ -67,6 +73,7 @@ public class Texture3D extends Texture {
         exceptInvalid("Texture3D");
         ShortBuffer buffer = BufferUtils.createShortBuffer(data.length);
         glGetTextureSubImage(id, level, x, y, z, width, height, depth, format.id, type.id, buffer);
+        buffer.flip();
         buffer.get(data);
     }
 
@@ -74,6 +81,7 @@ public class Texture3D extends Texture {
         exceptInvalid("Texture3D");
         IntBuffer buffer = BufferUtils.createIntBuffer(data.length);
         glGetTextureSubImage(id, level, x, y, z, width, height, depth, format.id, type.id, buffer);
+        buffer.flip();
         buffer.get(data);
     }
 
@@ -81,6 +89,7 @@ public class Texture3D extends Texture {
         exceptInvalid("Texture3D");
         FloatBuffer buffer = BufferUtils.createFloatBuffer(data.length);
         glGetTextureSubImage(id, level, x, y, z, width, height, depth, format.id, type.id, buffer);
+        buffer.flip();
         buffer.get(data);
     }
 
@@ -88,6 +97,7 @@ public class Texture3D extends Texture {
         exceptInvalid("Texture3D");
         DoubleBuffer buffer = BufferUtils.createDoubleBuffer(data.length);
         glGetTextureSubImage(id, level, x, y, z, width, height, depth, format.id, type.id, buffer);
+        buffer.flip();
         buffer.get(data);
     }
 }

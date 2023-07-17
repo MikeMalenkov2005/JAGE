@@ -4,7 +4,6 @@ import com.github.MikeMalenkov2005.jage.enums.DataType;
 import com.github.MikeMalenkov2005.jage.enums.ImageFormat;
 import com.github.MikeMalenkov2005.jage.enums.PixelFormat;
 import org.lwjgl.BufferUtils;
-import org.lwjgl.system.MemoryUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -28,6 +27,7 @@ public class Texture2D extends Texture {
         exceptInvalid("Texture2D");
         ByteBuffer buffer = BufferUtils.createByteBuffer(data.length);
         buffer.put(data);
+        buffer.flip();
         glTextureSubImage2D(id, level, x, y, width, height, format.id, type.id, buffer);
     }
 
@@ -35,6 +35,7 @@ public class Texture2D extends Texture {
         exceptInvalid("Texture2D");
         ShortBuffer buffer = BufferUtils.createShortBuffer(data.length);
         buffer.put(data);
+        buffer.flip();
         glTextureSubImage2D(id, level, x, y, width, height, format.id, type.id, buffer);
     }
 
@@ -42,6 +43,7 @@ public class Texture2D extends Texture {
         exceptInvalid("Texture2D");
         IntBuffer buffer = BufferUtils.createIntBuffer(data.length);
         buffer.put(data);
+        buffer.flip();
         glTextureSubImage2D(id, level, x, y, width, height, format.id, type.id, buffer);
     }
 
@@ -49,6 +51,7 @@ public class Texture2D extends Texture {
         exceptInvalid("Texture2D");
         FloatBuffer buffer = BufferUtils.createFloatBuffer(data.length);
         buffer.put(data);
+        buffer.flip();
         glTextureSubImage2D(id, level, x, y, width, height, format.id, type.id, buffer);
     }
 
@@ -56,6 +59,7 @@ public class Texture2D extends Texture {
         exceptInvalid("Texture2D");
         DoubleBuffer buffer = BufferUtils.createDoubleBuffer(data.length);
         buffer.put(data);
+        buffer.flip();
         glTextureSubImage2D(id, level, x, y, width, height, format.id, type.id, buffer);
     }
 
@@ -63,6 +67,7 @@ public class Texture2D extends Texture {
         exceptInvalid("Texture2D");
         ByteBuffer buffer = BufferUtils.createByteBuffer(data.length);
         glGetTextureSubImage(id, level, x, y, 0, width, height, 1, format.id, type.id, buffer);
+        buffer.flip();
         buffer.get(data);
     }
 
@@ -70,6 +75,7 @@ public class Texture2D extends Texture {
         exceptInvalid("Texture2D");
         ShortBuffer buffer = BufferUtils.createShortBuffer(data.length);
         glGetTextureSubImage(id, level, x, y, 0, width, height, 1, format.id, type.id, buffer);
+        buffer.flip();
         buffer.get(data);
     }
 
@@ -77,6 +83,7 @@ public class Texture2D extends Texture {
         exceptInvalid("Texture2D");
         IntBuffer buffer = BufferUtils.createIntBuffer(data.length);
         glGetTextureSubImage(id, level, x, y, 0, width, height, 1, format.id, type.id, buffer);
+        buffer.flip();
         buffer.get(data);
     }
 
@@ -84,6 +91,7 @@ public class Texture2D extends Texture {
         exceptInvalid("Texture2D");
         FloatBuffer buffer = BufferUtils.createFloatBuffer(data.length);
         glGetTextureSubImage(id, level, x, y, 0, width, height, 1, format.id, type.id, buffer);
+        buffer.flip();
         buffer.get(data);
     }
 
@@ -91,6 +99,7 @@ public class Texture2D extends Texture {
         exceptInvalid("Texture2D");
         DoubleBuffer buffer = BufferUtils.createDoubleBuffer(data.length);
         glGetTextureSubImage(id, level, x, y, 0, width, height, 1, format.id, type.id, buffer);
+        buffer.flip();
         buffer.get(data);
     }
 

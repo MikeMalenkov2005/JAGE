@@ -194,7 +194,7 @@ public class Window implements Runnable {
         return 0;
     }
 
-    public Set<String> getMonitorNames() {
+    public static Set<String> getMonitorNames() {
         Set<String> result = new HashSet<>();
         PointerBuffer monitors = Objects.requireNonNull(glfwGetMonitors());
         for (long monitor = monitors.get(); monitors.hasRemaining(); monitor = monitors.get()) {

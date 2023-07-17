@@ -2,12 +2,13 @@ package com.github.MikeMalenkov2005.jage.textures;
 
 import com.github.MikeMalenkov2005.jage.enums.*;
 import org.lwjgl.BufferUtils;
+import org.lwjgl.system.MemoryUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.ByteBuffer;
+import java.nio.*;
 
 import static org.lwjgl.opengl.GL46.*;
 
@@ -24,27 +25,27 @@ public class CubeMap extends Texture {
 
     public void write(CubeSide side, int x, int y, int width, int height, PixelFormat format, DataType type, byte... data) {
         exceptInvalid("CubeMap");
-        glTextureSubImage3D(id, 0, x, y, side.id, width, height, 1, format.id, type.id, ByteBuffer.wrap(data));
+        glTextureSubImage3D(id, 0, x, y, side.id, width, height, 1, format.id, type.id, MemoryUtil.memAddress(ByteBuffer.wrap(data)));
     }
 
     public void write(CubeSide side, int x, int y, int width, int height, PixelFormat format, DataType type, short... data) {
         exceptInvalid("CubeMap");
-        glTextureSubImage3D(id, 0, x, y, side.id, width, height, 1, format.id, type.id, data);
+        glTextureSubImage3D(id, 0, x, y, side.id, width, height, 1, format.id, type.id, MemoryUtil.memAddress(ShortBuffer.wrap(data)));
     }
 
     public void write(CubeSide side, int x, int y, int width, int height, PixelFormat format, DataType type, int... data) {
         exceptInvalid("CubeMap");
-        glTextureSubImage3D(id, 0, x, y, side.id, width, height, 1, format.id, type.id, data);
+        glTextureSubImage3D(id, 0, x, y, side.id, width, height, 1, format.id, type.id, MemoryUtil.memAddress(IntBuffer.wrap(data)));
     }
 
     public void write(CubeSide side, int x, int y, int width, int height, PixelFormat format, DataType type, float... data) {
         exceptInvalid("CubeMap");
-        glTextureSubImage3D(id, 0, x, y, side.id, width, height, 1, format.id, type.id, data);
+        glTextureSubImage3D(id, 0, x, y, side.id, width, height, 1, format.id, type.id, MemoryUtil.memAddress(FloatBuffer.wrap(data)));
     }
 
     public void write(CubeSide side, int x, int y, int width, int height, PixelFormat format, DataType type, double... data) {
         exceptInvalid("CubeMap");
-        glTextureSubImage3D(id, 0, x, y, side.id, width, height, 1, format.id, type.id, data);
+        glTextureSubImage3D(id, 0, x, y, side.id, width, height, 1, format.id, type.id, MemoryUtil.memAddress(DoubleBuffer.wrap(data)));
     }
 
     public void read(CubeSide side, int x, int y, int width, int height, PixelFormat format, DataType type, byte[] data) {
@@ -54,22 +55,22 @@ public class CubeMap extends Texture {
 
     public void read(CubeSide side, int x, int y, int width, int height, PixelFormat format, DataType type, short[] data) {
         exceptInvalid("CubeMap");
-        glGetTextureSubImage(id, 0, x, y, side.id, width, height, 1, format.id, type.id, data);
+        glGetTextureSubImage(id, 0, x, y, side.id, width, height, 1, format.id, type.id, ShortBuffer.wrap(data));
     }
 
     public void read(CubeSide side, int x, int y, int width, int height, PixelFormat format, DataType type, int[] data) {
         exceptInvalid("CubeMap");
-        glGetTextureSubImage(id, 0, x, y, side.id, width, height, 1, format.id, type.id, data);
+        glGetTextureSubImage(id, 0, x, y, side.id, width, height, 1, format.id, type.id, IntBuffer.wrap(data));
     }
 
     public void read(CubeSide side, int x, int y, int width, int height, PixelFormat format, DataType type, float[] data) {
         exceptInvalid("CubeMap");
-        glGetTextureSubImage(id, 0, x, y, side.id, width, height, 1, format.id, type.id, data);
+        glGetTextureSubImage(id, 0, x, y, side.id, width, height, 1, format.id, type.id, FloatBuffer.wrap(data));
     }
 
     public void read(CubeSide side, int x, int y, int width, int height, PixelFormat format, DataType type, double[] data) {
         exceptInvalid("CubeMap");
-        glGetTextureSubImage(id, 0, x, y, side.id, width, height, 1, format.id, type.id, data);
+        glGetTextureSubImage(id, 0, x, y, side.id, width, height, 1, format.id, type.id, DoubleBuffer.wrap(data));
     }
 
     public void loadSide(CubeSide side, URL imageURL) throws IOException {

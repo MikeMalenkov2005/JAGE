@@ -1,16 +1,16 @@
 package com.github.MikeMalenkov2005.jage.textures;
 
-import com.github.MikeMalenkov2005.jage.InvalidGLResourceException;
 import com.github.MikeMalenkov2005.jage.enums.DataType;
 import com.github.MikeMalenkov2005.jage.enums.ImageFormat;
 import com.github.MikeMalenkov2005.jage.enums.PixelFormat;
 import org.lwjgl.BufferUtils;
+import org.lwjgl.system.MemoryUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.ByteBuffer;
+import java.nio.*;
 
 import static org.lwjgl.opengl.GL46.*;
 
@@ -26,27 +26,27 @@ public class Texture2D extends Texture {
 
     public void write(int level, int x, int y, int width, int height, PixelFormat format, DataType type, byte... data) {
         exceptInvalid("Texture2D");
-        glTextureSubImage2D(id, level, x, y, width, height, format.id, type.id, ByteBuffer.wrap(data));
+        glTextureSubImage2D(id, level, x, y, width, height, format.id, type.id, MemoryUtil.memAddress(ByteBuffer.wrap(data)));
     }
 
     public void write(int level, int x, int y, int width, int height, PixelFormat format, DataType type, short... data) {
         exceptInvalid("Texture2D");
-        glTextureSubImage2D(id, level, x, y, width, height, format.id, type.id, data);
+        glTextureSubImage2D(id, level, x, y, width, height, format.id, type.id, MemoryUtil.memAddress(ShortBuffer.wrap(data)));
     }
 
     public void write(int level, int x, int y, int width, int height, PixelFormat format, DataType type, int... data) {
         exceptInvalid("Texture2D");
-        glTextureSubImage2D(id, level, x, y, width, height, format.id, type.id, data);
+        glTextureSubImage2D(id, level, x, y, width, height, format.id, type.id, MemoryUtil.memAddress(IntBuffer.wrap(data)));
     }
 
     public void write(int level, int x, int y, int width, int height, PixelFormat format, DataType type, float... data) {
         exceptInvalid("Texture2D");
-        glTextureSubImage2D(id, level, x, y, width, height, format.id, type.id, data);
+        glTextureSubImage2D(id, level, x, y, width, height, format.id, type.id, MemoryUtil.memAddress(FloatBuffer.wrap(data)));
     }
 
     public void write(int level, int x, int y, int width, int height, PixelFormat format, DataType type, double... data) {
         exceptInvalid("Texture2D");
-        glTextureSubImage2D(id, level, x, y, width, height, format.id, type.id, data);
+        glTextureSubImage2D(id, level, x, y, width, height, format.id, type.id, MemoryUtil.memAddress(DoubleBuffer.wrap(data)));
     }
 
     public void read(int level, int x, int y, int width, int height, PixelFormat format, DataType type, byte[] data) {
@@ -56,22 +56,22 @@ public class Texture2D extends Texture {
 
     public void read(int level, int x, int y, int width, int height, PixelFormat format, DataType type, short[] data) {
         exceptInvalid("Texture2D");
-        glGetTextureSubImage(id, level, x, y, 0, width, height, 1, format.id, type.id, data);
+        glGetTextureSubImage(id, level, x, y, 0, width, height, 1, format.id, type.id, ShortBuffer.wrap(data));
     }
 
     public void read(int level, int x, int y, int width, int height, PixelFormat format, DataType type, int[] data) {
         exceptInvalid("Texture2D");
-        glGetTextureSubImage(id, level, x, y, 0, width, height, 1, format.id, type.id, data);
+        glGetTextureSubImage(id, level, x, y, 0, width, height, 1, format.id, type.id, IntBuffer.wrap(data));
     }
 
     public void read(int level, int x, int y, int width, int height, PixelFormat format, DataType type, float[] data) {
         exceptInvalid("Texture2D");
-        glGetTextureSubImage(id, level, x, y, 0, width, height, 1, format.id, type.id, data);
+        glGetTextureSubImage(id, level, x, y, 0, width, height, 1, format.id, type.id, FloatBuffer.wrap(data));
     }
 
     public void read(int level, int x, int y, int width, int height, PixelFormat format, DataType type, double[] data) {
         exceptInvalid("Texture2D");
-        glGetTextureSubImage(id, level, x, y, 0, width, height, 1, format.id, type.id, data);
+        glGetTextureSubImage(id, level, x, y, 0, width, height, 1, format.id, type.id, DoubleBuffer.wrap(data));
     }
 
     public static Texture2D load(URL imageURL, int levels) throws IOException {

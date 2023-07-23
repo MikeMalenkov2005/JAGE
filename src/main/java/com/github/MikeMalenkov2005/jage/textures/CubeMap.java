@@ -105,9 +105,13 @@ public class CubeMap extends Texture {
 
     public void loadSide(CubeSide side, URL imageURL) throws IOException {
         BufferedImage image = ImageIO.read(imageURL);
+        loadSide(side, image);
+    }
+
+    public void loadSide(CubeSide side, BufferedImage image) {
         int[] pixels = new int[image.getWidth() * image.getHeight()];
         image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());
-        ByteBuffer buffer = BufferUtils.createByteBuffer(image.getWidth() * image.getHeight() * 4);
+        ByteBuffer buffer = ByteBuffer.allocate(image.getWidth() * image.getHeight() * 4);
         for (int y = image.getHeight() - 1; y >= 0; y--) {
             for (int x = 0; x < image.getWidth(); x++) {
                 int pixel = pixels[y * image.getWidth() + x];

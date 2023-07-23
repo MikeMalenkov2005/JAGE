@@ -105,6 +105,10 @@ public class Texture2D extends Texture {
 
     public static Texture2D load(URL imageURL, int levels) throws IOException {
         BufferedImage image = ImageIO.read(imageURL);
+        return load(image, levels);
+    }
+
+    public static Texture2D load(BufferedImage image, int levels) {
         int[] pixels = new int[image.getWidth() * image.getHeight()];
         image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());
         ByteBuffer buffer = ByteBuffer.allocate(image.getWidth() * image.getHeight() * 4);
